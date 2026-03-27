@@ -6,6 +6,75 @@
     <title>Todo List</title>
 </head>
 <body>
-    <header>Todo List</header>
+    <header>
+        <h1>Todo List</h1>
+    </header>
+    <div class="container">
+        <aside>
+            <h2>Projects</h2>
+        </aside>
+        <main>
+            <!-- This Div is for the new todo, and its popup -->
+            <div>
+                <button class="add_todo">New Todo</button>
+
+                <form class="todo_form" action="" hidden>
+                    <div class="todo_inputs">
+                        <label for="add_existing">Add to an existing project(optional)</label>
+                        <input type="text" name="add_existing" id="add_existing">
+
+                        <label for="title">Title</label>
+                        <input type="text" name="title" id="title">
+
+                        <label for="desc">Description</label>
+                        <input type="text" name="desc" id="desc">
+
+                        <label for="date">Date</label>
+                        <input type="text" name="date" id="date">
+        
+                        <label for="prty">Priority</label>
+                        <input type="text" name="prty" id="prty">
+
+                        <label for="chkbx">Done</label>
+                        <input type="checkbox", name="chkbx", id="chkbx">
+                    </div>
+
+                    <button class="submit_todo" type="button">Add</button>
+                </form>
+
+                <button class="add_project" command="show-modal" commandfor="add_project">New Project</button>
+                <dialog id="add_project">
+
+                    <form class="prjct_form" action="" >
+                        <label for="prjctName">Project Name</label>
+                        <input type="text" name="prjctName" id="prjctName">
+
+                        <div class="todo_inputs">
+                            <label for="title">Title</label>
+                            <input type="text" name="title" id="title">
+
+                            <label for="desc">Description</label>
+                            <input type="text" name="desc" id="desc">
+
+                            <label for="date">Date</label>
+                            <input type="text" name="date" id="date">
+            
+                            <label for="prty">Priority</label>
+                            <input type="text" name="prty" id="prty">
+
+                            <label for="chkbx">Done</label>
+                            <input type="checkbox" name="chkbx" id="chkbx">
+                        </div>
+                        <button command="close" commandfor="add_project" class="submit_prjct" type="button">Add</button>
+                    </form>
+
+                    <button command="close" commandfor="add_project">close</button>
+                </dialog>
+                
+            </div>
+            <div class="display"></div>
+        </main>
+    </div>
 </body>
 </html>
+

@@ -1,10 +1,11 @@
 class Todo {
-    constructor(title, description, date, priority, check){
+    constructor(title, description, date, priority, check, id){
         this.title = title;
         this.description = description;
         this.date = date;
         this.priority = priority;
         this.check = check
+        this.id = id
     }
 
     setPriority (value){
@@ -31,8 +32,8 @@ function make_project(title, desc, date, priority, chkbx, name, default_project=
 
         // projects["Default"].push(todo1);
         // projects["Default"].push(todo2);        
-        
-        let new_todo = new Todo(`Task: ${title}`, `Description: ${desc}`, `Date: ${date}`, `Priority: ${priority}`, `Completed: ${chkbx || "No"}`); //Making new todo 
+        let id = projects["Default"].length;  // Getting length of how many todos exist, and making it id for a new todo
+        let new_todo = new Todo(`Task: ${title}`, `Description: ${desc}`, `Date: ${date}`, `Priority: ${priority}`, `Completed: ${chkbx || "No"}`, id); //Making new todo 
 
         projects["Default"].push(new_todo);         
 
@@ -41,7 +42,8 @@ function make_project(title, desc, date, priority, chkbx, name, default_project=
     else{
         let current_projects = JSON.parse(localStorage.getItem("saved_projects"));  // Getting projects fron local storage
         if (name in current_projects) {
-            let new_todo = new Todo(`Task: ${title}`, `Description: ${desc}`, `Date: ${date}`, `Priority: ${priority}`, `Completed: ${chkbx || "No"}`); //Making new todo 
+            let id = current_projects[name].length;
+            let new_todo = new Todo(`Task: ${title}`, `Description: ${desc}`, `Date: ${date}`, `Priority: ${priority}`, `Completed: ${chkbx || "No"}`,id); //Making new todo, where (id + 1)  adds increases id number for every new card
             current_projects[name].push(new_todo); //Appending new todo to the project
 
             localStorage.setItem("saved_projects", JSON.stringify(current_projects));
@@ -50,7 +52,8 @@ function make_project(title, desc, date, priority, chkbx, name, default_project=
         }
         else {
             current_projects[name] = [];
-            let new_todo = new Todo(`Task: ${title}`, `Description: ${desc}`, `Date: ${date}`, `Priority: ${priority}`, `Completed: ${chkbx} || "No"`); //Making new todo 
+            let id = current_projects[name].length;
+            let new_todo = new Todo(`Task: ${title}`, `Description: ${desc}`, `Date: ${date}`, `Priority: ${priority}`, `Completed: ${chkbx || "No"}`,id); //Making new todo 
 
             current_projects[name].push(new_todo); 
 
@@ -63,12 +66,26 @@ function make_project(title, desc, date, priority, chkbx, name, default_project=
 
 
 function get_projects(default_project=NaN){
+    // localStorage.clear();
     if (default_project){
-        return make_project("Muaz's Birthday", "Wish birthday to Muaz", "8th september", "1", "No", "Default", "default_project");
+        return make_project("Muaz's Birthday", "Wish him birthday", "8th september", "1", "No", "Default", "default_project");  // where 1 in integer form is used to keep check of each card's id
     }
 
     // localStorage.clear();    // Uncomment this to clear the local storage
     return JSON.parse(localStorage.getItem("saved_projects"));
 }
 
-export { make_project, get_projects};
+
+function remove_todo(project_name, todo_id){
+    let projects = JSON.parse(localStorage.getItem("saved_projects"));
+    
+    projects[project_name] = projects[project_name].filter(todo => {
+        if (todo.id !== todo_id){
+            return todo;
+        }
+    })
+    
+    localStorage.setItem("saved_projects", JSON.stringify(projects));
+}
+
+export { make_project, get_projects, remove_todo};
